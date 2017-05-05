@@ -1,11 +1,8 @@
 'use strict';
 const app = require('./src/server'),
-	  config = require('./config/config');
+	  config = require('./config/config'),
+	  db = require('./src/models/db');
 
-var Sequelize = require('sequelize');
-var sequelize = new Sequelize('pokemons', null, null, {
-	dialect: 'sqlite'
-});
 
 var request = require('request-promise');
 
@@ -13,17 +10,17 @@ app.listen(config.server.port, function () {
 	console.log(`Listening on http://localhost:${config.server.port}`);
 });
 
-var Pokemon = sequelize.define('pokemon', {
+var Pokemon = db.sequelize.define('pokemon', {
 	name: {
-		type: Sequelize.STRING,
+		type: db.Sequelize.STRING,
 		allowNull: false
 	},
 	price: {
-		type: Sequelize.INTEGER,
+		type: db.Sequelize.INTEGER,
 		allowNull: false
 	},
 	stock: {
-		type: Sequelize.INTEGER,
+		type: db.Sequelize.INTEGER,
 		allowNull: true,
 		defaultValue: 1
 	}
