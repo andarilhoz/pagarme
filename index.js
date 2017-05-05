@@ -1,5 +1,5 @@
-var express = require('express');
-var app = express();
+'use strict';
+const app = require('./src/server');
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize('pokemons', null, null, {
 	dialect: 'sqlite'
