@@ -1,5 +1,6 @@
 'use strict';
-const app = require('./src/server');
+const app = require('./src/server'),
+	  config = require('./config/config');
 
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize('pokemons', null, null, {
@@ -8,8 +9,8 @@ var sequelize = new Sequelize('pokemons', null, null, {
 
 var request = require('request-promise');
 
-app.listen(3000, function () {
-	console.log('Listening on http://localhost:3000');
+app.listen(config.server.port, function () {
+	console.log(`Listening on http://localhost:${config.server.port}`);
 });
 
 var Pokemon = sequelize.define('pokemon', {
