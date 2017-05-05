@@ -1,13 +1,12 @@
 'use strict';
 const app = require('./src/server');
+
 var Sequelize = require('sequelize');
 var sequelize = new Sequelize('pokemons', null, null, {
 	dialect: 'sqlite'
 });
-var bodyParser = require('body-parser');
-var request = require('request-promise');
 
-app.use(bodyParser.json());
+var request = require('request-promise');
 
 app.listen(3000, function () {
 	console.log('Listening on http://localhost:3000');
