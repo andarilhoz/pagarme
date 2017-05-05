@@ -1,33 +1,12 @@
 'use strict';
 const app = require('./src/server'),
 	  config = require('./config/config'),
-	  db = require('./src/models/db');
-
+	  Pokemon = require('./src/models/pokemon');
 
 var request = require('request-promise');
 
 app.listen(config.server.port, function () {
 	console.log(`Listening on http://localhost:${config.server.port}`);
-});
-
-var Pokemon = db.sequelize.define('pokemon', {
-	name: {
-		type: db.Sequelize.STRING,
-		allowNull: false
-	},
-	price: {
-		type: db.Sequelize.INTEGER,
-		allowNull: false
-	},
-	stock: {
-		type: db.Sequelize.INTEGER,
-		allowNull: true,
-		defaultValue: 1
-	}
-});
-
-Pokemon.sync({force: true}).then(function () {
-	console.log('Model is ready!');
 });
 
 app.get('/get-pokemons', function (req, res) {
