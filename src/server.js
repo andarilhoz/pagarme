@@ -7,6 +7,6 @@ const express = require('express'),
 
 app.use(bodyParser.json());
 
-app.use('/pokemons',pokemons)
+app.use('/pokemon',pokemons)
 
 module.exports = app;

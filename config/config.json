@@ -5,5 +5,8 @@
     "database":{
         "name":"pokemons",
         "dialect":"sqlite"
+    },
+    "pagarme":{
+        "key":"ak_test_WHgSu2XFmvoopAZMetV3LfA2RfEEQg"
     }
 }
