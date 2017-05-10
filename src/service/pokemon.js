@@ -10,7 +10,7 @@ class PokemonService {
             return new Promise((resolve, reject) => {
                   Pokemon.create(pokemon)
                         .then(pokemon => {
-                              resolve(pokemon)
+                              resolve(pokemon);
                         });
             });
       }

@@ -18,7 +18,7 @@ const Pokemon = db.sequelize.define('pokemon', {
 	}
 });
 
-Pokemon.sync({force: true}).then(function () {
+Pokemon.sync({force: true}).then(() => {
 	console.log('Model is ready!');
 });
 
