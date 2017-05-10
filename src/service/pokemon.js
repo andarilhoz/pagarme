@@ -24,14 +24,14 @@ class PokemonService {
             });
       }
 
-      buy(pokemon, quantity) {
+      buy(pokemon, quantity, card) {
             return new Promise((resolve, reject) => {
                   let metadata = {
                         product: 'pokemon',
                         name: pokemon.name,
                         quantity: quantity
                   }
-                  pagarmeService.transaction(pokemon.price, quantity, metadata)
+                  pagarmeService.transaction(pokemon.price, quantity, card, metadata)
                         .then(body => {
                               if (body.status == 'paid') {
                                     pokemon.stock = pokemon.stock - quantity;

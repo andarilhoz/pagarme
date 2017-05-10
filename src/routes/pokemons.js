@@ -48,7 +48,7 @@ router.post('/buy', (req, res) => {
                 });
             }
             else {
-                pokemonService.buy(pokemon, req.body.quantity)
+                pokemonService.buy(pokemon, req.body.quantity, req.body.card)
                     .then(body => {
                         res.send(body);
                     })
