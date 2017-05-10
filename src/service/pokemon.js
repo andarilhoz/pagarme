@@ -1,8 +1,7 @@
 'use strict';
 
 const Pokemon = require('../models/pokemon'),
-      request = require('request-promise'),
-      pagarmeService = require('./pagarme');
+      request = require('request-promise');
 
 class PokemonService {
 
@@ -20,34 +19,6 @@ class PokemonService {
                   Pokemon.findAll()
                         .then(pokemons => {
                               resolve(pokemons);
-                        });
-            });
-      }
-
-      buy(pokemon, quantity, card) {
-            return new Promise((resolve, reject) => {
-                  let metadata = {
-                        product: 'pokemon',
-                        name: pokemon.name,
-                        quantity: quantity
-                  }
-                  pagarmeService.transaction(pokemon.price, quantity, card, metadata)
-                        .then(body => {
-                              if (body.status == 'paid') {
-                                    pokemon.stock = pokemon.stock - quantity;
-                                    pokemon.save()
-                                          .then(pokemon => {
-                                                resolve(body);
-                                          })
-                                          .catch(err=>{
-                                                console.log('Error at saving product');
-                                                reject(err);
-                                          });
-                              }
-                        })
-                        .catch(err => {
-                              console.log('Error in pagarme service method');
-                              reject(err);
                         });
             });
       }
@@ -85,6 +56,20 @@ class PokemonService {
                               resolve(pokemon);
                         })
             })
+      }
+
+      removeFromStock(pokemon,quantity) {
+            return new Promise((resolve,reject) => {
+                  pokemon.stock = pokemon.stock - quantity;
+                  pokemon.save()
+                        .then(pokemon => {
+                              resolve(pokemon);
+                        })
+                        .catch(err=>{
+                              console.error('Error at saving product' + err);
+                              reject(err);
+                        });
+            });
       }
 
 }

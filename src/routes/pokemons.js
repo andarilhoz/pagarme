@@ -2,6 +2,7 @@
 
 const express = require('express'),
     pokemonService = require('../service/pokemon'),
+    pagarmeService = require('../service/pagarme'),
     router = express.Router();
 
 
@@ -42,13 +43,18 @@ router.put('/', (req, res) => {
 router.post('/buy', (req, res) => {
     pokemonService.findOneByName(req.body.name)
         .then(pokemon => {
-            if (pokemon.stock < req.body.quantity) {
+            if(!pokemon){
+                res.status(404).send({
+                    error: `Pokemon ${req.body.name} not found`
+                });
+            }
+            else if (pokemon.stock < req.body.quantity) {
                 res.status(400).send({
                     error: `Not enought ${pokemon.name}, in stock: ${pokemon.stock}`
                 });
             }
             else {
-                pokemonService.buy(pokemon, req.body.quantity, req.body.card)
+                pagarmeService.buy(pokemon, req.body.quantity, req.body.card)
                     .then(body => {
                         res.send(body);
                     })

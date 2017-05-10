@@ -1,9 +1,32 @@
 'use strict';
 
 const request = require('request-promise'),
-      config = require('../../config/config');
+      config = require('../../config/config'),
+      pokemonService = require('./pokemon');
 
 class PagarmeService {
+
+    buy(pokemon, quantity, card) {
+            return new Promise((resolve, reject) => {
+                  let metadata = {
+                        product: 'pokemon',
+                        name: pokemon.name,
+                        quantity: quantity
+                  }
+                  this.transaction(pokemon.price, quantity, card, metadata)
+                        .then(body => {
+                              if (body.status == 'paid') {
+                                  pokemonService.removeFromStock(pokemon,quantity)
+                                    .then(pokemon => resolve(body))
+                                    .catch(err => reject(err))
+                              }
+                        })
+                        .catch(err => {
+                              console.log('Error in pagarme service method');
+                              reject(err);
+                        });
+            });
+      }
 
     transaction(price, quantity, card, metadata) {
         return new Promise((resolve, reject) => {
