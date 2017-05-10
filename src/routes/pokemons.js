@@ -7,9 +7,9 @@ const express = require('express'),
 
 
 router.get('', (req, res, next) => {
-
-    if (req.query.name && req.query.name.length > 0) {
-        pokemonService.findManyByName(req.query.name)
+    let name = req.query.name;
+    if (name && name.length > 0) {
+        pokemonService.findManyByName(name)
             .then(pokemons => {
                 res.send(pokemons);
             });
@@ -41,24 +41,36 @@ router.put('/', (req, res) => {
 });
 
 router.post('/buy', (req, res) => {
-    pokemonService.findOneByName(req.body.name)
+    let name = req.body.name,
+        quantity = req.body.quantity,
+        card = req.body.card;
+
+    pokemonService.findOneByName(name)
         .then(pokemon => {
-            if(!pokemon){
+            if (!pokemon) {
                 res.status(404).send({
-                    error: `Pokemon ${req.body.name} not found`
+                    error: `Pokemon ${name} not found`
                 });
             }
-            else if (pokemon.stock < req.body.quantity) {
+            else if (pokemon.stock < quantity) {
                 res.status(400).send({
                     error: `Not enought ${pokemon.name}, in stock: ${pokemon.stock}`
                 });
             }
             else {
-                pagarmeService.buy(pokemon, req.body.quantity, req.body.card)
+                pagarmeService.buy(pokemon, quantity, card)
                     .then(body => {
-                        res.send(body);
+                        if (body.status == 'paid') {
+                            pokemonService.removeFromStock(pokemon, quantity)
+                                .then(pokemon => res.send(body))
+                                .catch(err => {
+                                    res.status(500).send(err);
+                                });
+                        }
                     })
                     .catch(err => {
+                        console.log(err)
+                        console.log(JSON.stringify(err, null, 4));
                         res.status(400).send(err);
                     });
             }

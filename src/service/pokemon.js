@@ -6,70 +6,36 @@ const Pokemon = require('../models/pokemon'),
 class PokemonService {
 
       create(pokemon) {
-            return new Promise((resolve, reject) => {
-                  Pokemon.create(pokemon)
-                        .then(pokemon => {
-                              resolve(pokemon);
-                        });
-            });
+            return Pokemon.create(pokemon);
       }
 
       findAll() {
-            return new Promise((resolve, reject) => {
-                  Pokemon.findAll()
-                        .then(pokemons => {
-                              resolve(pokemons);
-                        });
-            });
+            return Pokemon.findAll();
       }
 
       findManyByName(name) {
-            return new Promise((resolve,reject) => {
-                  Pokemon.findAll({
-                        where: {
-                              name: {$like: `%${name}%`}
-                        }
-                  })
-                  .then(pokemon => {
-                        resolve(pokemon);
-                  });
+            return Pokemon.findAll({
+                  where: {
+                        name: { $like: `%${name}%` }
+                  }
             });
       }
 
       findOneByName(name) {
-            return new Promise((resolve, reject) => {
-                  Pokemon.findOne({
-                        where: {
-                              name: name
-                        }
-                  })
-                        .then(pokemon => {
-                              resolve(pokemon);
-                        })
+            return Pokemon.findOne({
+                  where: {
+                        name: name
+                  }
             });
       }
 
-      findById(id){
-            return new Promise((resolve,reject) => {
-                  Pokemon.findById(id)
-                        .then(pokemon => {
-                              resolve(pokemon);
-                        })
-            })
+      findById(id) {
+            return Pokemon.findById(id);
       }
 
-      removeFromStock(pokemon,quantity) {
-            return new Promise((resolve,reject) => {
-                  pokemon.stock = pokemon.stock - quantity;
-                  pokemon.save()
-                        .then(pokemon => {
-                              resolve(pokemon);
-                        })
-                        .catch(err=>{
-                              console.error('Error at saving product' + err);
-                              reject(err);
-                        });
-            });
+      removeFromStock(pokemon, quantity) {
+            pokemon.stock = pokemon.stock - quantity;
+            return pokemon.save();
       }
 
 }
