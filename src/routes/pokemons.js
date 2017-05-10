@@ -29,8 +29,13 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
     pokemonService.findById(req.params.id)
         .then(pokemon => {
-            res.send(pokemon)
-        })
+            if(pokemon)
+                res.send(pokemon)
+            else
+                res.status(404).send({
+                    error: "Pokemon not found"
+                });
+        });
 });
 
 router.put('/', (req, res) => {
