@@ -52,6 +52,19 @@ class PokemonService {
             });
       }
 
+      findManyByName(name) {
+            return new Promise((resolve,reject) => {
+                  Pokemon.findAll({
+                        where: {
+                              name: {$like: `%${name}%`}
+                        }
+                  })
+                  .then(pokemon => {
+                        resolve(pokemon);
+                  });
+            });
+      }
+
       findOneByName(name) {
             return new Promise((resolve, reject) => {
                   Pokemon.findOne({

@@ -1,8 +1,22 @@
 'use strict';
 
 const express = require('express'),
-      pokemonService = require('../service/pokemon'),
-      router = express.Router();
+    pokemonService = require('../service/pokemon'),
+    router = express.Router();
+
+
+router.get('', (req, res, next) => {
+
+    if (req.query.name && req.query.name.length > 0) {
+        pokemonService.findManyByName(req.query.name)
+            .then(pokemons => {
+                res.send(pokemons);
+            });
+    } else {
+        next();
+    }
+
+});
 
 router.get('/', (req, res) => {
     pokemonService.findAll()
@@ -11,7 +25,7 @@ router.get('/', (req, res) => {
         });
 });
 
-router.get('/:id', (req,res) => {
+router.get('/:id', (req, res) => {
     pokemonService.findById(req.params.id)
         .then(pokemon => {
             res.send(pokemon)
@@ -32,7 +46,7 @@ router.post('/buy', (req, res) => {
                 res.status(400).send({
                     error: `Not enought ${pokemon.name}, in stock: ${pokemon.stock}`
                 });
-            } 
+            }
             else {
                 pokemonService.buy(pokemon, req.body.quantity)
                     .then(body => {
