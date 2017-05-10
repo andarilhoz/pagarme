@@ -11,6 +11,13 @@ router.get('/', (req, res) => {
         });
 });
 
+router.get('/:id', (req,res) => {
+    pokemonService.findById(req.params.id)
+        .then(pokemon => {
+            res.send(pokemon)
+        })
+});
+
 router.put('/', (req, res) => {
     pokemonService.create(req.body)
         .then(pokemon => {

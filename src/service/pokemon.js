@@ -65,6 +65,15 @@ class PokemonService {
             });
       }
 
+      findById(id){
+            return new Promise((resolve,reject) => {
+                  Pokemon.findById(id)
+                        .then(pokemon => {
+                              resolve(pokemon);
+                        })
+            })
+      }
+
 }
 
 module.exports = new PokemonService;
