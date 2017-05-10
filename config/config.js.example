@@ -7,6 +7,6 @@ module.exports = {
         "dialect":"sqlite"
     },
     "pagarme":{
-        "key":"ak_test_WHgSu2XFmvoopAZMetV3LfA2RfEEQg"
+        "key":"<pagarme_key>"
     }
 }
