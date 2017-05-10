@@ -14,7 +14,9 @@ Bibliotecas e frameworks utilizados com o node:
 
 É necessário ter o [Node.js](https://nodejs.org/) para iniciar.
 
-Instale as dependencias para iniciar o servidor.
+Crie um arquivo config.js na pasta config utilizando o exemplo como base.
+
+Instale as dependencias antes de iniciar o servidor.
 
 ```sh
 $ cd pagarme
